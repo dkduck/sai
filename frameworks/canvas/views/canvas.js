@@ -23,14 +23,19 @@ Sai.CanvasView = SC.View.extend({
     }, this);
   },
   
-  didCreateLayer: function() {
+  didAppendToDocument: function() {
+    var firstTime = !this.canvas;
     if (this.willCreateCanvas) this.willCreateCanvas();
-    this.canvas = Sai.Canvas.create();
-    this.renderCanvas(this.canvas, YES);
-    this.renderChildElements(this.canvas, YES);
-    this.canvas.render(this, YES);
+    if (firstTime) this.canvas = Sai.Canvas.create();
+    this.renderCanvas(this.canvas, firstTime);
+    this.renderChildElements(this.canvas, firstTime);
+    this.canvas.render(this, firstTime);
     if (this.didCreateCanvas) this.didCreateCanvas();
   },
+
+//  didAppendToDocument: function() {
+//      this.displayDidChange();
+//  },
   
   didUpdateLayer: function() {
     if (this.willUpdateCanvas) this.willUpdateCanvas();
